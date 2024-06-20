@@ -46,7 +46,7 @@ jobs:
   package:
     name: Package both builds
     runs-on: ubuntu-latest
-    if: always()
+    if: success() || failure()
     steps:
       - uses: actions/checkout@v4
 
