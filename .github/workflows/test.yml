@@ -31,7 +31,7 @@ jobs:
 
       - uses: actions/checkout@v4
         with:
-          repository: geode-sdk/textureldr
+          repository: Kingminer7/example-mod-for-compiling
           path: textureldr
 
       - name: Build the mod
