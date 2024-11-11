@@ -228,7 +228,6 @@ runs:
     - name: unzip lols
       id: unzip-stuff
       shell: bash
-      needs: lol
       run: |
         cd $GEODE_SDK/bin/4.0.0
         unzip and32.zip
@@ -238,7 +237,6 @@ runs:
     - name: Run CMake and build
       id: build
       shell: bash
-      needs: unzip-stuff
       run: |
         mkdir -p $HOME/.cache
 
