@@ -219,6 +219,7 @@ runs:
 
         mkdir bin
         mkdir bin/4.0.0
+        cd bin/4.0.0
         curl -o and64.zip https://github.com/Kingminer7/geode/releases/download/nightly/geode-3cdd8a9-android64.zip
         curl -o and32.zip https://github.com/Kingminer7/geode/releases/download/nightly/geode-3cdd8a9-android32.zip
         curl -o win.zip https://github.com/Kingminer7/geode/releases/download/nightly/geode-3cdd8a9-win.zip
@@ -230,10 +231,11 @@ runs:
       shell: bash
       run: |
         cd $GEODE_SDK/bin/4.0.0
-        ls
         unzip and32.zip
         unzip and64.zip
         unzip win.zip
+
+        la
         
     - name: Run CMake and build
       id: build
