@@ -195,6 +195,7 @@ runs:
 
     - name: Setup Geode SDK
       shell: bash
+      id: lol
       run: |
         export CLI_PROFILE="${{ github.workspace }}/cli-profile"
         # for windows
@@ -222,18 +223,22 @@ runs:
         curl -o and32.zip https://github.com/Kingminer7/geode/releases/download/nightly/geode-3cdd8a9-android32.zip
         curl -o win.zip https://github.com/Kingminer7/geode/releases/download/nightly/geode-3cdd8a9-win.zip
 
-        whereis and32.zip
-
+        export CPM_CACHE="${{ github.workspace }}/cpm-cache"
+        echo "CPM_SOURCE_CACHE=$CPM_CACHE" >> $GITHUB_ENV
+    - name: unzip lols
+      id: unzip-stuff
+      shell: bash
+      needs: lol
+      run: |
+        cd $GEODE_SDK/bin/4.0.0
         unzip and32.zip
         unzip and64.zip
         unzip win.zip
-
-        export CPM_CACHE="${{ github.workspace }}/cpm-cache"
-        echo "CPM_SOURCE_CACHE=$CPM_CACHE" >> $GITHUB_ENV
         
     - name: Run CMake and build
       id: build
       shell: bash
+      needs: unzip-stuff
       run: |
         mkdir -p $HOME/.cache
 
