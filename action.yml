@@ -210,26 +210,9 @@ runs:
         
         echo "GEODE_SDK=$GEODE_SDK" >> $GITHUB_ENV
 
-        if [ "${{ inputs.sdk }}" == "nightly" ]; then
-          geode sdk update nightly
-          geode sdk install-binaries --platform ${{ steps.platform.outputs.target_id }}
-        elif [ "${{ inputs.sdk }}" == "latest" ]; then
-          geode sdk update stable
-          geode sdk install-binaries --platform ${{ steps.platform.outputs.target_id }}
-        elif [ "${{ inputs.sdk }}" == "given" ]; then
-          export MOD_JSON_PATH=$(find . -name "mod.json" -not -path "./geode-sdk-clone/*" -print | sort -r | head -n 1)
-          export TARGET_GEODE_VERSION=$(jq -r '.geode' $MOD_JSON_PATH)
-          echo "Updating to version $TARGET_GEODE_VERSION from $MOD_JSON_PATH"
-          geode sdk update "$TARGET_GEODE_VERSION"
-          geode sdk install-binaries --platform ${{ steps.platform.outputs.target_id }} --version "$TARGET_GEODE_VERSION"
-        else
-          geode sdk update ${{ inputs.sdk }}
-          geode sdk install-binaries --platform ${{ steps.platform.outputs.target_id }}
-        fi
         
-        export CPM_CACHE="${{ github.workspace }}/cpm-cache"
-        echo "CPM_SOURCE_CACHE=$CPM_CACHE" >> $GITHUB_ENV
-
+        
+        
         cd $GEODE_SDK
         git checkout v4
         
@@ -241,6 +224,10 @@ runs:
         unzip and32.zip
         unzip and64.zip
         unzip win.zip
+
+        export CPM_CACHE="${{ github.workspace }}/cpm-cache"
+        echo "CPM_SOURCE_CACHE=$CPM_CACHE" >> $GITHUB_ENV
+        
     - name: Run CMake and build
       id: build
       shell: bash
