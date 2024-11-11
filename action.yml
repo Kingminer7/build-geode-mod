@@ -215,7 +215,8 @@ runs:
         
         cd $GEODE_SDK
         git checkout v4
-        
+
+        ls
         mkdir bin/4.0.0
         curl -o and64 https://github.com/Kingminer7/geode/releases/download/nightly/geode-3cdd8a9-android64.zip
         curl -o and32 https://github.com/Kingminer7/geode/releases/download/nightly/geode-3cdd8a9-android32.zip
