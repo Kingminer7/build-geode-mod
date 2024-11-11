@@ -230,6 +230,7 @@ runs:
       shell: bash
       run: |
         cd $GEODE_SDK/bin/4.0.0
+        ls
         unzip and32.zip
         unzip and64.zip
         unzip win.zip
