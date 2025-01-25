@@ -209,20 +209,16 @@ runs:
         token: ${{ inputs.gh-pat }}
         ref: nightly
         path: geode-sdk-clone
-        
-    - name: Setup for binaries
-      if: steps.platform.outputs.target_id == 'ios'
-      shell: bash
-      run: |
-        COMMIT_HASH=$(cd ${{ github.workspace }}/geode-sdk-clone && git rev-parse --short HEAD)
-        echo "COMMIT_HASH=${COMMIT_HASH}" >> $GITHUB_ENV
-        mkdir -p ${{ github.workspace }}/geode-sdk-clone/bin/nightly
 
     - name: Download binaries
-      uses: actions/download-artifact@v3
+      uses: robinraju/release-downloader@v1
       with:
-        name: geode-${{ env.COMMIT_HASH }}-ios.zip
-        path: ${{ github.workspace }}/geode-sdk-clone/bin/nightly
+        repository: geode-catgirls/geode-cgs
+        token: ${{ inputs.gh-pat }}
+        tag: nightly
+        filename: geode-*-ios.zip
+        out-file-path: ${{ github.workspace }}/geode-sdk-clone/bin/nightly
+        extract: true
 
     - name: Setup Geode SDK
       shell: bash
@@ -267,9 +263,6 @@ runs:
           #uncomment these when geode ios releases:
           # geode sdk update "$TARGET_GEODE_VERSION"
           # geode sdk install-binaries --platform ${{ steps.platform.outputs.target_id }} --version "$TARGET_GEODE_VERSION"
-
-          # also delete this
-          unzip $GEODE_SDK/bin/nightly/geode-${{env.COMMIT_HASH}}-ios.zip -d $GEODE_SDK/bin/nightly
         else
           geode sdk update ${{ inputs.sdk }}
           # because it was still getting old old old binaries
