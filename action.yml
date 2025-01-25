@@ -212,14 +212,13 @@ runs:
         
     - name: Setup for binaries
       if: steps.platform.outputs.target_id == 'ios'
-      id: get_commit_hash
+      shell: bash
       run: |
         COMMIT_HASH=$(cd ${{ github.workspace }}/geode-sdk-clone && git rev-parse --short HEAD)
         echo "COMMIT_HASH=${COMMIT_HASH}" >> $GITHUB_ENV
         mkdir -p ${{ github.workspace }}/geode-sdk-clone/bin/nightly
 
     - name: Download binaries
-      id: download_release
       uses: actions/download-artifact@v3
       with:
         name: geode-${{ env.COMMIT_HASH }}-ios.zip
